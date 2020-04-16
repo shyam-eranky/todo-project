@@ -35,12 +35,11 @@ def users():
     pp.pprint(users)
     return jsonify(users)
 
-@app.route("/tasks")             
-def tasks():              
+@app.route("/test")             
+def test():              
     user_list = User.query.all()
     pp.pprint(user_list)
     for u in user_list:
-        print(u)
         tasks = list(map(lambda task: task.serialize(),u.tasks))
         pp.pprint(tasks)
     
