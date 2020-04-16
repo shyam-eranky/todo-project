@@ -1,0 +1,10 @@
+pip install flask
+pip install sql-alchemy
+pip install mysql-connector-python
+pip install flask-wtf 
+pip install flask-login
+-- vscode
+pip install pylint-flask
+pip install pylint_flask_sqlalchemy
+
+Download MySQL Workbench
