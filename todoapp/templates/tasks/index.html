@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Here are the ToDo tasks for {{current_user.username}}, userid = {{current_user.id}}</h1>
+    <p></p><a href="{{ url_for('tasks.create') }}">Create task</a></p>
+    {% for task in tasks %}
+    <article class="post">
+      <header>
+      </header>
+      <span class="body">{{ task['title'] }}</span>
+      <a class="action" href="{{ url_for('tasks.delete', id=task['id']) }}">Delete task</a>
+    </article>
+    {% if not loop.last %}
+      <hr>
+    {% endif %}
+  {% endfor %}
+{% endblock %}
