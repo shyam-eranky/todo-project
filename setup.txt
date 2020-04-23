@@ -1,10 +1,21 @@
-pip install flask
-pip install sql-alchemy
-pip install mysql-connector-python
-pip install flask-wtf 
-pip install flask-login
--- vscode
-pip install pylint-flask
-pip install pylint_flask_sqlalchemy
+AWS EC2 User Data
+#!/bin/bash
+apt-get -y update
+apt-get -y install ruby
+apt-get -y install wget
+apt-get -y install python3-pip
+cd /home/ubuntu
+wget https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/install
+chmod +x ./install
+./install auto
+pip3 install flask
+pip3 install flask-sqlalchemy
+pip3 install mysql-connector-python
+pip3 install flask-wtf 
+pip3 install flask-login
 
-Download MySQL Workbench
+Check the following on EC2 by ssh into the VM
+sudo service codedeploy-agent status
+
+Locally
+Install MySQL Workbench to connect to AWS RDS
