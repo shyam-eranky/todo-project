@@ -29,7 +29,7 @@ def internal_error(error):
 
 ## Test methods -- START --
 @app.route("/hello")              
-def users():
+def hello():
     return "Hello world"
 
 
