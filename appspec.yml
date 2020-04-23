@@ -24,7 +24,7 @@ os: linux
 #   may cause associated deployments to fail.
 files:
   - source: ./
-    destination: ~/todo-project
+    destination: /home/ubuntu/todo-project
     overwrite: yes
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions" 
