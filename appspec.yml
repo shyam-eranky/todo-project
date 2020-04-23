@@ -26,7 +26,14 @@ files:
   - source: ./
     destination: /home/ubuntu/todo-project
     overwrite: yes
-    runas: ubuntu
+    permissions:
+        - object: /home/ubuntu
+          owner: ubuntu
+          group: ubuntu
+      permissions:
+        - object: .
+          owner: ubuntu
+          group: ubuntu    
 # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions" 
 #   section here that describes special permissions to apply to the files 
@@ -84,7 +91,7 @@ hooks:
 # During the AfterInstall deployment lifecycle event, run the commands 
 #   in the script specified in "location".
   AfterInstall:
-    - location: ./start.sh &   
+    - location: todo-project/start.sh &   
       timeout: 60
       runas: ubuntu
 #    - location: 
