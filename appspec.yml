@@ -28,14 +28,11 @@ files:
     overwrite: yes
 
 permissions:
-    - object: /home/ubuntu
-        owner: ubuntu
-        group: ubuntu
-permissions:
-    - object: .
-        owner: ubuntu
-        group: ubuntu    
-# For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
+  - object: /home/ubuntu
+    owner: ubuntu
+    group: ubuntu
+
+    # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions" 
 #   section here that describes special permissions to apply to the files 
 #   in the "files" section as they are being copied over to 
