@@ -32,6 +32,8 @@ def create_app(test_config=None):
     # default config added here
     app.config.from_mapping(
         SECRET_KEY='dev'
+        SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<username>:<password>@<rds-instance-name>.us-west-2.rds.amazonaws.com/innodb'
+        SQLALCHEMY_TRACK_MODIFICATIONS = False
     )
     # This config is not part of the git project but is created in the instance folder 
     # following Flask conventions of handling config
