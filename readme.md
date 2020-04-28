@@ -22,12 +22,12 @@ Run start.sh <br/>
 Connect to [http://localhost:8080](http://localhost:8080)
 
 ## Database setup
-This project uses MySQL as a database and uses SQLAlchemy package to extract out the DB info into an ORM so the underlying database can be switched as needed. You can add the following lines for setting up the DB in your __init.py__ file for using a local db instance. If you want to connect to a prod instance hosted on AWS RDS then add these lines to a new file called config.py in the instance folder that gets created when you run the server once.
+This project uses MySQL as a database and uses SQLAlchemy package to extract out the DB info into an ORM so the underlying database can be switched as needed. You can add the following lines for setting up the DB in your __init.py__ file for using a local db instance. If you want to connect to a prod instance hosted on AWS RDS then add these lines to a new file called __config.py__ in the __instance__ folder that gets created when you run the server once.
 ```python
 SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<username>:<password>@<rds-instance-name>.us-west-2.rds.amazonaws.com/innodb'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 ```
-Download MySQL Workbench to create the tables in the innodb database using the scripts in dbcreate.sql
+Download MySQL Workbench to create the tables in the innodb database using the scripts in __dbcreate.sql__
 
 # Project Setup
 Main folder is called todo-project.
@@ -57,4 +57,13 @@ Main folder is called todo-project.
 ...|- auth.py : Blueprint for the authentication code to handle login/logout/register
    
 ...|- tasks.py : Blueprint for the tasks code to handle create/delete of todo tasks for each user
+
+# Summary
+This project uses multiple flask modules including flask for app creation and some common utilities, wtforms for encapsulating the different post/submit forms, flask-login which provides convenient classes for logging in users and managing sessions out of the box and Werkzeug for hashing password fields and verifying hashed passwords for login. The HTML templating is done using Jinja2 which is very JSP like and can be used to easily pass the class objects defined in the python files and iterate upon them.
+## References
+A lot of this code has been put together by referring to the following two links which go into details of what each object does and how to use them. The code in this project is very simple and self explanatory but you can use the following links if you need more info.
+
+[Flask mega tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
+
+[Flask SQL Alchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
 
