@@ -30,4 +30,31 @@ SQLALCHEMY_TRACK_MODIFICATIONS = False
 Download MySQL Workbench to create the tables in the innodb database using the scripts in dbcreate.sql
 
 # Project Setup
+Main folder is called todo-project.
+
+|- todo.py : main python file todo.py which is used to create the Flask app
+
+|- todo.wsgi : used to run the server in production mode using apache2 which is covered in a later section below
+
+|- .gitignore : Use vscode extension to generate it for python and flask
+
+|- setup.txt : Compilation of useful commands needed for EC2 setup covered later
+
+|- start.sh : setup and run the flask local dev server on your localhost
+
+|- todoapp : Folder containing all the application related code
+
+...|- static : Contains the css and client side js assets
+   
+...|- templates : HTML Jinja2 snippets with base.html being the base file included in all the other files.
+   
+...|- __init__.py : Initializes the db and login manager and provides the factory to create the flask app
+   
+...|- forms.py : Holds the class definitions for login, register and tasks forms used by the front end
+   
+...|- models.py : SQLAlchemy based classes to model User and ToDo tasks for the user
+   
+...|- auth.py : Blueprint for the authentication code to handle login/logout/register
+   
+...|- tasks.py : Blueprint for the tasks code to handle create/delete of todo tasks for each user
 
