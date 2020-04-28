@@ -27,5 +27,7 @@ This project uses MySQL as a database and uses SQLAlchemy package to extract out
 SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<username>:<password>@<rds-instance-name>.us-west-2.rds.amazonaws.com/innodb'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 ```
+Download MySQL Workbench to create the tables in the innodb database. 
 
 # Project Setup
+
