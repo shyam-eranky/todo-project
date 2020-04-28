@@ -4,6 +4,8 @@ apt-get -y update
 apt-get -y install ruby
 apt-get -y install wget
 apt-get -y install python3-pip
+apt-get -y install apache2
+apt-get install libapache2-mod-wsgi-py3 python-dev
 cd /home/ubuntu
 wget https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/install
 chmod +x ./install
@@ -16,6 +18,8 @@ pip3 install flask-login
 
 Check the following on EC2 by ssh into the VM
 sudo service codedeploy-agent status
+netstat -antp
+sudo systemctl status apache2
 
 Locally
 Install MySQL Workbench to connect to AWS RDS
