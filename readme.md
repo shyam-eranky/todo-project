@@ -20,3 +20,12 @@ flask run
 ```
 Run start.sh <br/>
 Connect to [http://localhost:8080](http://localhost:8080)
+
+## Database setup
+This project uses MySQL as a database and uses SQLAlchemy package to extract out the DB info into an ORM so the underlying database can be switched as needed. You can add the following lines for setting up the DB in your __init.py__ file for using a local db instance. If you want to connect to a prod instance hosted on AWS RDS then add these lines to a new file called config.py in the instance folder that gets created when you run the server once.
+```python
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<username>:<password>@<rds-instance-name>.us-west-2.rds.amazonaws.com/innodb'
+SQLALCHEMY_TRACK_MODIFICATIONS = False
+```
+
+# Project Setup
