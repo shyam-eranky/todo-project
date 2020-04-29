@@ -91,7 +91,7 @@ hooks:
   AfterInstall:
     - location: start_apache.sh   
       timeout: 60
-      runas: ubuntu
+      runas: root
 #    - location: 
 #      timeout:
 #      runas:
