@@ -36,8 +36,13 @@ def create_app(test_config=None):
         SQLALCHEMY_TRACK_MODIFICATIONS = False
     )
     # This config is not part of the git project but is created in the instance folder 
-    # following Flask conventions of handling config
-    app.config.from_pyfile('config.py')
+    # following Flask conventions of handling config and contains actual user/pass for RDS
+    #app.config.from_pyfile('config.py')
+    
+    # For prod use env variable. The var below has the path to the config file created 
+    # during EC2 setup in user data
+    app.config.from_envvar('TODOAPP_CONFIG')
+
     # Initialize SQLAlchemy 
     db.init_app(app)
 
