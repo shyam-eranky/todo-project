@@ -25,12 +25,6 @@ os: linux
 files:
   - source: ./
     destination: /var/www/html/todo-project
-    overwrite: yes
-
-permissions:
-  - object: /home/ubuntu
-    owner: ubuntu
-    group: ubuntu
 
     # For deployments to Amazon Linux, Ubuntu Server, or RHEL instances,
 #   you can specify a "permissions" 
@@ -42,6 +36,10 @@ permissions:
 #   then remove the 
 #   "permissions" section altogether. A blank or incomplete "permissions"
 #   section may cause associated deployments to fail.
+permissions:
+  - object: /var/www/html/
+    owner: ubuntu
+    group: ubuntu
 
 # If you are not running any commands on the Amazon EC2 instance, then remove 
 #   the "hooks" section altogether. A blank or incomplete "hooks" section
