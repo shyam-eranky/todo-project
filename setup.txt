@@ -5,16 +5,26 @@ apt-get -y install ruby
 apt-get -y install wget
 apt-get -y install python3-pip
 apt-get -y install apache2
-apt-get install libapache2-mod-wsgi-py3 python-dev
+apt-get -y install libapache2-mod-wsgi-py3 python-dev
+# code deploy agent
 cd /home/ubuntu
 wget https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/install
 chmod +x ./install
 ./install auto
+# Setup flask dependencies
 pip3 install flask
 pip3 install flask-sqlalchemy
 pip3 install mysql-connector-python
 pip3 install flask-wtf 
 pip3 install flask-login
+#Apache config
+chown -R ubuntu:ubuntu /var/www
+chmod 2775 /var/www
+find /var/www -type d -exec chmod 2775 {} \;
+find /var/www -type f -exec chmod 0664 {} \;
+chmod o+w /etc/apache2/sites-available/
+echo -e "<VirtualHost *:80>\\nWSGIDaemonProcess todo threads=5\nWSGIProcessGroup todo\n WSGIScriptAlias / /var/www/html/todo-project/todo.wsgi\n<Directory /var/www/html/todo-project/static>\nOrder allow,deny\nAllow from all\n</Directory>\n</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
+
 
 Check the following on EC2 by ssh into the VM
 sudo service codedeploy-agent status
@@ -23,3 +33,5 @@ sudo systemctl status apache2
 
 Locally
 Install MySQL Workbench to connect to AWS RDS
+
+
