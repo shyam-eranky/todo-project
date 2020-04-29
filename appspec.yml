@@ -89,7 +89,7 @@ hooks:
 # During the AfterInstall deployment lifecycle event, run the commands 
 #   in the script specified in "location".
   AfterInstall:
-    - location: /home/ubuntu/todo-project/start_apache.sh   
+    - location: /var/www/html/todo-project/start_apache.sh   
       timeout: 60
       runas: ubuntu
 #    - location: 
