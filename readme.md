@@ -80,3 +80,12 @@ _Remember to create a new __security group__ for this RDS instance. This project
 
 ![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/RDS1.jpg "RDS 1")
 
+### Prod configuration for DB
+There are multiple approaches to managing config per environment but this project uses a very simple approach of storing the DB params in a config file during EC2 instance creation and then modifying the envvars of apache2 also during instance creation to export a env var to point to this file. The code then reads this env var and then loads the config from the file. 
+
+## EC2 instance creation
+
+
+## Load balancer and auto scaling group setup (coming soon)
+
+## Deployment from GitHub to EC2
