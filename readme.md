@@ -75,5 +75,5 @@ Follow the [AWS guide for MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/Us
 
 _Remember to create a new __security group__ for this RDS instance. This project uses that security group for a) connecting using MySQL Workbench from my laptop and b) for allowing EC2 instances to connect to this RDS instance._
 
-
+![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/RDS1.jpg "RDS 1")
 
