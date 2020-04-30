@@ -16,21 +16,22 @@ export FLASK_APP=todo.py
 export FLASK_ENV=development
 export FLASK_DEBUG=1
 export FLASK_RUN_PORT=8080
+export TODOAPP_CONFIG=$HOME'/todo_config.py'
 flask run
 ```
 Run start.sh <br/>
 Connect to [http://localhost:8080](http://localhost:8080)
 
 ## Database setup
-This project uses MySQL as a database and uses SQLAlchemy package to extract out the DB info into an ORM so the underlying database can be switched as needed. You can add the following lines for setting up the DB in your __init.py__ file for using a local db instance. If you want to connect to a prod instance hosted on AWS RDS then add these lines to a new file called __config.py__ in the __instance__ folder that gets created when you run the server once.
+This project uses MySQL as a database and uses SQLAlchemy package to extract out the DB info into an ORM so the underlying database can be switched as needed. You can add the following lines for setting up the DB in your __init.py__ file for using a local db instance. Config for dev vs prod will is covered later but the basic structure of connector url is shown below.
 ```python
-SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<username>:<password>@<rds-instance-name>.us-west-2.rds.amazonaws.com/innodb'
+SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<username>:<password>@<machine-name>/innodb'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 ```
 Download MySQL Workbench to create the tables in the innodb database using the scripts in __dbcreate.sql__
 
 # Project Setup
-Main folder is called todo-project.
+Main folder is called todo-project. Preferred dev IDE is __vscode__
 
 |- todo.py : main python file todo.py which is used to create the Flask app
 
@@ -57,6 +58,8 @@ Main folder is called todo-project.
 ...|- auth.py : Blueprint for the authentication code to handle login/logout/register
    
 ...|- tasks.py : Blueprint for the tasks code to handle create/delete of todo tasks for each user
+
+![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/vscode.jpg "VS code")
 
 # Summary
 This project uses multiple flask modules including flask for app creation and some common utilities, wtforms for encapsulating the different post/submit forms, flask-login which provides convenient classes for logging in users and managing sessions out of the box and Werkzeug for hashing password fields and verifying hashed passwords for login. The HTML templating is done using Jinja2 which is very JSP like and can be used to easily pass the class objects defined in the python files and iterate upon them.
