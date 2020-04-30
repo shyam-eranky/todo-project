@@ -38,11 +38,12 @@ def create_app(test_config=None):
 
     # Load the actual DB info from a config file outside of your git repo so that the 
     # access params for your RDS DB are not publicly exposed
-    configpath = os.environ['HOME']
-    print(configpath)
-    filename = os.path.join(configpath,'todo_config.py')
-    print(filename)
-    app.config.from_pyfile(filename)
+    #configpath = os.environ['HOME']
+    configpath = os.path.abspath(os.environ['TODOAPP_CONFIG'])
+    print(configpath)    
+    #filename = os.path.join(configpath,'todo_config.py')
+    #print(filename)
+    app.config.from_pyfile(configpath)
     
     # Initialize SQLAlchemy 
     db.init_app(app)
