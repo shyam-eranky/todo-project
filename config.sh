@@ -1,1 +1,0 @@
-export TODOAPP_CONFIG=/home/ubuntu/todo_config.py

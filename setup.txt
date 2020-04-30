@@ -24,7 +24,7 @@ find /var/www -type d -exec chmod 2775 {} \;
 find /var/www -type f -exec chmod 0664 {} \;
 chmod o+w /etc/apache2/sites-available/
 echo -e "<VirtualHost *:80>\\nWSGIDaemonProcess todo threads=5\nWSGIProcessGroup todo\n WSGIScriptAlias / /var/www/html/todo-project/todo.wsgi\n<Directory /var/www/html/todo-project/static>\nOrder allow,deny\nAllow from all\n</Directory>\n</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
-echo -e "SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:pass@rdsname/innodb'\n SQLALCHEMY_TRACK_MODIFICATIONS = False" > /home/ubuntu/todo_config.py
+echo -e "SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:pass@rdsname/innodb'\nSQLALCHEMY_TRACK_MODIFICATIONS = False" > /home/ubuntu/todo_config.py
 
 
 Check the following on EC2 by ssh into the VM
