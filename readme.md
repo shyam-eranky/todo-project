@@ -67,3 +67,13 @@ A lot of this code has been put together by referring to the following two links
 
 [Flask SQL Alchemy](https://flask-sqlalchemy.palletsprojects.com/en/2.x/)
 
+[Flask tutorial](https://flask.palletsprojects.com/en/1.1.x/tutorial/)
+
+# AWS Setup
+## MySQL RDS setup
+Follow the [AWS guide for MySQL](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_GettingStarted.CreatingConnecting.MySQL.html) to create a simple DB instance. The instance name you set is internal to AWS and is not used in any connection parameters you pass to your code. The default DB name (schema) is __innodb__. You can create a separate schema if you choose to. This example creates all tables in the innodb schema. 
+
+_Remember to create a new __security group__ for this RDS instance. This project uses that security group for a) connecting using MySQL Workbench from my laptop and b) for allowing EC2 instances to connect to this RDS instance._
+
+
+
