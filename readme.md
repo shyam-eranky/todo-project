@@ -139,4 +139,14 @@ and is used by the app to read the DB params. This way the DB params do not get 
 ## Load balancer and auto scaling group setup (coming soon)
 
 ## Deployment from GitHub to EC2
+Use CodeDeploy and CodePipeline in conjunction to setup deployment every time a commit is pushed onto master branch. 
+[CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-codedeploy.html)
+[CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html#welcome-get-started)
 
+Basic highlights :
+* Setup an IAM role for CodeDeploy
+* Setup an IAM role for EC2 instance profile
+* A new IAM role will be created when you configure CodePipeline taking it to a total of 3 IAM roles. 
+* First configure the CodeDeploy app and add a deployment group by selecting the CodeDeployServiceRole and use the Name/value tags for Ec2 instances to let it know which EC2 instances to deploy to. Skip build stage for now.
+* Create a new CodePipeline and let is create a new service role and select all other defaults. For Source select Github and connect to it. Then you can select the repo and master branch. For destination select the code deploy app you created above.
+* Thats it! This will setup the github webhook in your github project. Each time a commit is pushed the pipeline gets triggered and it then calls the codedeploy job which then goes ahead and installs the app in /var/www/html on the ec2 instance and then restarts apache2. The appspec.yml file in your repo has the instructions for these steps. 
