@@ -1,3 +1,6 @@
+A simple Todo app written in Python/Flask that lets users register and then login and create and delete ToDo tasks.
+
+[Todo app hosted on AWS](http://ec2-54-213-239-116.us-west-2.compute.amazonaws.com)
 # Development environment instructions
 ## Python and Flask dependencies setup
 It is recommended to use a virtual env for installing Python3 and all its dependencies but that is not covered in this tutorial. Install Python3 (3.6 or higher is preferred) and pip3
@@ -23,7 +26,7 @@ Run start.sh <br/>
 Connect to [http://localhost:8080](http://localhost:8080)
 
 ## Database setup
-This project uses MySQL as a database and uses SQLAlchemy package to extract out the DB info into an ORM so the underlying database can be switched as needed. You can add the following lines for setting up the DB in your __init.py__ file for using a local db instance. Config for dev vs prod will is covered later but the basic structure of connector url is shown below.
+This project uses MySQL as a database and uses SQLAlchemy package to extract out the DB info into an ORM so the underlying database can be switched as needed. You can add the following lines for setting up the DB in your $HOME/todo_config.py file for using a local db or AWS RDS instance. Config for dev vs prod will is covered later but the basic structure of connector url is shown below.
 ```python
 SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://<username>:<password>@<machine-name>/innodb'
 SQLALCHEMY_TRACK_MODIFICATIONS = False
@@ -64,7 +67,7 @@ Main folder is called todo-project. Preferred dev IDE is __vscode__
 # Summary
 This project uses multiple flask modules including flask for app creation and some common utilities, wtforms for encapsulating the different post/submit forms, flask-login which provides convenient classes for logging in users and managing sessions out of the box and Werkzeug for hashing password fields and verifying hashed passwords for login. The HTML templating is done using Jinja2 which is very JSP like and can be used to easily pass the class objects defined in the python files and iterate upon them.
 ## References
-A lot of this code has been put together by referring to the following two links which go into details of what each object does and how to use them. The code in this project is very simple and self explanatory but you can use the following links if you need more info.
+A lot of this code has been put together by referring to the following links which go into details of what each object does and how to use them. The code in this project is very simple and self explanatory but you can use the following links if you need more info.
 
 [Flask mega tutorial](https://blog.miguelgrinberg.com/post/the-flask-mega-tutorial-part-i-hello-world)
 
@@ -86,7 +89,7 @@ There are multiple approaches to managing config per environment but this projec
 ## EC2 instance creation
 [Setup an EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
 The EC2 setup is initiated by clicking the Launch Instance Wizard. Brief steps are outlined here
-* Select the Ubuntu server AMI with t2.micro free tier type and click Configure Instance details
+* Select the Ubuntu server AMI (as it comes with Python3 by default) with t2.micro free tier type and click Configure Instance details
 * Select all the defaults for VPCs and subnets. You will need to select the CodeDeploy IAM role if you have already created it in the IAM role section. This is explained later. 
 * In the User data section add the following script (see setup.txt file)
 ```python
@@ -124,6 +127,31 @@ echo -e "SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:pass@rdsname/inn
 * Create a key pair and select it. Store the private key .pem file on your local laptop in a folder. This will be used to ssh to this instance when needed
 ![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/ec2-1.jpg "EC2 1")
 ![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/ec2-2.jpg "EC2 2")
+
+### User Data explanation
+The first section installs pip3 and apache2 and mod-wsgi which is used to run the web server in production.
+Next we install the code deploy agent (see CodePipeline and CodeDeploy sections below). This agent is used to deploy the code
+from Github onto the instance. Then we install all the python modules needed for this app including flask etc.
+Finally we configure apache2 to host the webapp alongwith the wsgi config needed to point to the flask app. Also configure the 
+actual params for connecting to your RDS MySQL instance here. This gets saved in a config file when instance is launched
+and is used by the app to read the DB params. This way the DB params do not get exposed in Github.
 ## Load balancer and auto scaling group setup (coming soon)
 
 ## Deployment from GitHub to EC2
+Use CodeDeploy and CodePipeline in conjunction to setup deployment every time a commit is pushed onto master branch. 
+[CodeDeploy](https://docs.aws.amazon.com/codedeploy/latest/userguide/getting-started-codedeploy.html)
+[CodePipeline](https://docs.aws.amazon.com/codepipeline/latest/userguide/welcome.html#welcome-get-started)
+
+Basic highlights :
+* Setup an IAM role for CodeDeploy
+* Setup an IAM role for EC2 instance profile
+* A new IAM role will be created when you configure CodePipeline taking it to a total of 3 IAM roles!! 
+* First configure the CodeDeploy app and add a deployment group by selecting the CodeDeployServiceRole and use the Name/value tags for Ec2 instances to let it know which EC2 instances to deploy to. Skip build stage for now.
+* Create a new CodePipeline and let is create a new service role and select all other defaults. For Source select Github and connect to it. Then you can select the repo and master branch. For destination select the code deploy app you created above.
+* Thats it! This will setup the github webhook in your github project. Each time a commit is pushed the pipeline gets triggered and it then calls the codedeploy job which then goes ahead and installs the app in /var/www/html on the ec2 instance and then restarts apache2. The appspec.yml file in your repo has the instructions for these steps.
+
+## Other AWS deployment options
+These options are not suited for free tier but might be a better fit for real apps.
+* [Elastic Beanstalk](https://aws.amazon.com/elasticbeanstalk/)
+* [ECS](https://aws.amazon.com/ecs/)
+* [EKS](https://aws.amazon.com/eks/)
