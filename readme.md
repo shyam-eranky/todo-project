@@ -84,8 +84,46 @@ _Remember to create a new __security group__ for this RDS instance. This project
 There are multiple approaches to managing config per environment but this project uses a very simple approach of storing the DB params in a config file during EC2 instance creation and then modifying the envvars of apache2 also during instance creation to export a env var to point to this file. The code then reads this env var and then loads the config from the file. 
 
 ## EC2 instance creation
-
-
+[Setup an EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
+The EC2 setup is initiated by clicking the Launch Instance Wizard. Brief steps are outlined here
+* Select the Ubuntu server AMI with t2.micro free tier type and click Configure Instance details
+* Select all the defaults for VPCs and subnets. You will need to select the CodeDeploy IAM role if you have already created it in the IAM role section. This is explained later. 
+* In the User data section add the following script (see setup.txt file)
+```python
+#!/bin/bash
+apt-get -y update
+apt-get -y install ruby
+apt-get -y install wget
+apt-get -y install python3-pip
+apt-get -y install apache2
+apt-get -y install libapache2-mod-wsgi-py3 python-dev
+# code deploy agent
+cd /home/ubuntu
+wget https://aws-codedeploy-us-west-2.s3.amazonaws.com/latest/install
+chmod +x ./install
+./install auto
+# Setup flask dependencies
+pip3 install flask
+pip3 install flask-sqlalchemy
+pip3 install mysql-connector-python
+pip3 install flask-wtf 
+pip3 install flask-login
+#Apache config
+chown -R ubuntu:ubuntu /var/www
+chmod 2775 /var/www
+find /var/www -type d -exec chmod 2775 {} \;
+find /var/www -type f -exec chmod 0664 {} \;
+chmod o+w /etc/apache2/sites-available/
+echo -e "<VirtualHost *:80>\\nWSGIDaemonProcess todo threads=5\nWSGIProcessGroup todo\n WSGIScriptAlias / /var/www/html/todo-project/todo.wsgi\n<Directory /var/www/html/todo-project/static>\nOrder allow,deny\nAllow from all\n</Directory>\n</VirtualHost>" > /etc/apache2/sites-available/000-default.conf
+echo -e "\nexport TODOAPP_CONFIG=/home/ubuntu/todo_config.py" >> /etc/apache2/envvars
+ # Replace user pass and db name before you paste this in the userdata section of EC2 instance launch
+echo -e "SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:pass@rdsname/innodb'\nSQLALCHEMY_TRACK_MODIFICATIONS = False" > /home/ubuntu/todo_config.py
+```
+* Select tags and add Name and unique value for CodeDeploy to identify this instance
+* Create a new security group to allow http:80 and ssh:22 (from MyIp). This can be later changed when you add a load balancer. 
+* Create a key pair and select it. Store the private key .pem file on your local laptop in a folder. This will be used to ssh to this instance when needed
+![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/ec2-1.jpg "EC2 1")
+![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/ec2-2.jpg "EC2 2")
 ## Load balancer and auto scaling group setup (coming soon)
 
 ## Deployment from GitHub to EC2
