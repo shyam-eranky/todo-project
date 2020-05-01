@@ -149,6 +149,7 @@ Basic highlights :
 * First configure the CodeDeploy app and add a deployment group by selecting the CodeDeployServiceRole and use the Name/value tags for Ec2 instances to let it know which EC2 instances to deploy to. Skip build stage for now.
 * Create a new CodePipeline and let is create a new service role and select all other defaults. For Source select Github and connect to it. Then you can select the repo and master branch. For destination select the code deploy app you created above.
 * Thats it! This will setup the github webhook in your github project. Each time a commit is pushed the pipeline gets triggered and it then calls the codedeploy job which then goes ahead and installs the app in /var/www/html on the ec2 instance and then restarts apache2. The appspec.yml file in your repo has the instructions for these steps.
+![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/deploy.jpg "deploy")
 
 ## Other AWS deployment options
 These options are not suited for free tier but might be a better fit for real apps.
