@@ -89,7 +89,7 @@ There are multiple approaches to managing config per environment but this projec
 ## EC2 instance creation
 [Setup an EC2 instance](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/concepts.html)
 The EC2 setup is initiated by clicking the Launch Instance Wizard. Brief steps are outlined here
-* Select the Ubuntu server AMI with t2.micro free tier type and click Configure Instance details
+* Select the Ubuntu server AMI (as it comes with Python3 by default) with t2.micro free tier type and click Configure Instance details
 * Select all the defaults for VPCs and subnets. You will need to select the CodeDeploy IAM role if you have already created it in the IAM role section. This is explained later. 
 * In the User data section add the following script (see setup.txt file)
 ```python
@@ -127,6 +127,16 @@ echo -e "SQLALCHEMY_DATABASE_URI = 'mysql+mysqlconnector://user:pass@rdsname/inn
 * Create a key pair and select it. Store the private key .pem file on your local laptop in a folder. This will be used to ssh to this instance when needed
 ![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/ec2-1.jpg "EC2 1")
 ![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/ec2-2.jpg "EC2 2")
+
+### User Data explanation
+The first section installs pip3 and apache2 and mod-wsgi which is used to run the web server in production
+Next we install the code deploy agent (see CodePipeline and CodeDeploy sections below). This agent is used to deploy the code
+from Github onto the instance
+Then we install all the python modules needed for this app including flask etc
+Finally we configure apache2 to host the webapp alongwith the wsgi config needed to point to the flask app. Also configure the 
+actual params for connecting to your RDS MySQL instance here. This gets saved in a config file when instance is launched
+and is used by the app to read the DB params. This way the DB params do not get exposed in Github.
 ## Load balancer and auto scaling group setup (coming soon)
 
 ## Deployment from GitHub to EC2
+
