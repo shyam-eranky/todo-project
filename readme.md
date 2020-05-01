@@ -136,6 +136,10 @@ Finally we configure apache2 to host the webapp alongwith the wsgi config needed
 actual params for connecting to your RDS MySQL instance here. This gets saved in a config file when instance is launched
 and is used by the app to read the DB params. This way the DB params do not get exposed in Github.
 ## Load balancer and auto scaling group setup (coming soon)
+* Create 3 security groups
+* Create ALB
+* Create Launch Template
+* Create Autoscaling group
 
 ## Deployment from GitHub to EC2
 Use CodeDeploy and CodePipeline in conjunction to setup deployment every time a commit is pushed onto master branch. 
