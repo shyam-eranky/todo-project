@@ -1,6 +1,6 @@
 A simple Todo app written in Python/Flask that lets users register and then login and create and delete ToDo tasks.
 
-[Todo app hosted on AWS](http://ec2-54-213-239-116.us-west-2.compute.amazonaws.com)
+[Todo app hosted on AWS](http://todo-lb-1610890009.us-west-2.elb.amazonaws.com)
 # Development environment instructions
 ## Python and Flask dependencies setup
 It is recommended to use a virtual env for installing Python3 and all its dependencies but that is not covered in this tutorial. Install Python3 (3.6 or higher is preferred) and pip3
