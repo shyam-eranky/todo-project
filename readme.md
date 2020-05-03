@@ -140,7 +140,7 @@ and is used by the app to read the DB params. This way the DB params do not get 
 * Create ALB
 * Create Launch Template
 * Create Autoscaling group
-* Change CodeDeploy group to point to auto scaling group
+* Change CodeDeploy group to point to auto scaling group. Do not enable the Load Balancer option to block traffic and allow traffic as it doesnt work!
 
 ## Deployment from GitHub to EC2
 Use CodeDeploy and CodePipeline in conjunction to setup deployment every time a commit is pushed onto master branch. 
