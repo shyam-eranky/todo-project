@@ -141,6 +141,7 @@ and is used by the app to read the DB params. This way the DB params do not get 
 * Create Launch Template
 * Create Autoscaling group , do not set the ELB check on it.
 * Change CodeDeploy group to point to auto scaling group. Do not enable the Load Balancer option to block traffic and allow traffic as it doesnt work!
+* Make sure lifecycle hook for code deploy gets added to your autoscale group
 
 ## Deployment from GitHub to EC2
 Use CodeDeploy and CodePipeline in conjunction to setup deployment every time a commit is pushed onto master branch. 
