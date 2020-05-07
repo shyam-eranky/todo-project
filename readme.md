@@ -1,6 +1,7 @@
 A simple Todo app written in Python/Flask that lets users register and then login and create and delete ToDo tasks.
 
 [Todo app hosted on AWS EC2](http://ec2-54-213-239-116.us-west-2.compute.amazonaws.com)
+
 [Todo app hosted on AWS EC2 using NLB](http://todo-app-nlb-2b37d8f9affa696b.elb.us-west-2.amazonaws.com/)
 
 Todo app hosted on AWS ALB (coming soon)
