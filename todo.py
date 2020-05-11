@@ -2,7 +2,7 @@
 # that are needed by the UI
 # This can also be changed to return JSON if you want this as an API layer and have the front end
 # built as a separate React/Angular app
-from todoapp import create_app, print_config
+from todoapp import create_app
 import pprint as pp
 import json
 from flask import current_app, request, jsonify, render_template

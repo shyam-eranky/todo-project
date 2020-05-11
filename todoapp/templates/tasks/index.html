@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block content %}
-    <h1>Here are the ToDo tasks for {{current_user.username}}, userid = {{current_user.id}}</h1>
+    <h1>Here are the ToDo tasks for {{current_user.username}}</h1>
     <p></p><a href="{{ url_for('tasks.create') }}">Create task</a></p>
     {% for task in tasks %}
     <article class="post">

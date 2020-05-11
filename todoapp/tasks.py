@@ -23,7 +23,7 @@ def create():
         task = ToDo(title=form.title.data,user_id=current_user.id)
         db.session.add(task)
         db.session.commit()
-        flash('Added task {} successfully'.format(task.id))
+        flash('Added task successfully')
         return redirect(url_for('tasks.index'))
 
     return render_template('tasks/create.html',title='Create Task', form=form)
@@ -33,5 +33,5 @@ def create():
 def delete(id):
     ToDo.query.filter_by(id=id).delete()
     db.session.commit()
-    flash('Deleted task {} successfully'.format(id))
+    flash('Deleted task successfully')
     return redirect(url_for('tasks.index'))
