@@ -1,6 +1,10 @@
 A simple Todo app written in Python/Flask that lets users register and then login and create and delete ToDo tasks.
 
-[Todo app hosted on AWS](http://ec2-54-213-239-116.us-west-2.compute.amazonaws.com)
+[Todo app hosted on AWS EC2](http://ec2-54-213-239-116.us-west-2.compute.amazonaws.com)
+
+[Todo app hosted on AWS EC2 using NLB](http://todo-app-nlb-2b37d8f9affa696b.elb.us-west-2.amazonaws.com/)
+
+Todo app hosted on AWS ALB (coming soon...)
 # Development environment instructions
 ## Python and Flask dependencies setup
 It is recommended to use a virtual env for installing Python3 and all its dependencies but that is not covered in this tutorial. Install Python3 (3.6 or higher is preferred) and pip3
@@ -136,6 +140,12 @@ Finally we configure apache2 to host the webapp alongwith the wsgi config needed
 actual params for connecting to your RDS MySQL instance here. This gets saved in a config file when instance is launched
 and is used by the app to read the DB params. This way the DB params do not get exposed in Github.
 ## Load balancer and auto scaling group setup (coming soon)
+* Create 3 security groups (lb-sg to allow all http traffic, app-sg for ec2 instances to allow http/80 from lb-sg, db-sg to allow mysql from app-sg)
+* Create ELB
+* Create Launch Template
+* Create Autoscaling group , do not set the ELB check on it.
+* Change CodeDeploy group to point to auto scaling group. Do not enable the Load Balancer option to block traffic and allow traffic as it doesnt work!
+* Make sure lifecycle hook for code deploy gets added to your autoscale group
 
 ## Deployment from GitHub to EC2
 Use CodeDeploy and CodePipeline in conjunction to setup deployment every time a commit is pushed onto master branch. 
@@ -149,6 +159,7 @@ Basic highlights :
 * First configure the CodeDeploy app and add a deployment group by selecting the CodeDeployServiceRole and use the Name/value tags for Ec2 instances to let it know which EC2 instances to deploy to. Skip build stage for now.
 * Create a new CodePipeline and let is create a new service role and select all other defaults. For Source select Github and connect to it. Then you can select the repo and master branch. For destination select the code deploy app you created above.
 * Thats it! This will setup the github webhook in your github project. Each time a commit is pushed the pipeline gets triggered and it then calls the codedeploy job which then goes ahead and installs the app in /var/www/html on the ec2 instance and then restarts apache2. The appspec.yml file in your repo has the instructions for these steps.
+![alt-text](https://github.com/shyam-eranky/todo-project/blob/master/img/deploy.jpg "deploy")
 
 ## Other AWS deployment options
 These options are not suited for free tier but might be a better fit for real apps.
